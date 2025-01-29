@@ -1,21 +1,18 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+
 import java.util.UUID;
 
 @Entity
-public class Project {
+public class Skills {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    @Lob
-    private String description;
 
     @Lob
     private String image;
@@ -35,14 +32,6 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getImage() {

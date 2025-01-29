@@ -2,17 +2,19 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Message;
 import com.example.demo.services.MessageService;
+import com.example.demo.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-//import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -23,23 +25,26 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping
-    public ResponseEntity<List<Message>> getMessages() {
+    public ResponseEntity<ApiResponse<List<Message>>> getMessages() {
         List<Message> messages = messageService.getAllMessages();
-        return new ResponseEntity<>(messages, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(HttpStatus.OK.value(), "Success", messages));
     }
 
+
     @PostMapping
-    public ResponseEntity<?> addMessage( @RequestBody Message message, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse<?>> addMessage(@RequestBody Message message, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage())
             );
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "Failure", errors));
         }
 
         message.setDate(LocalDateTime.now());
         Message savedMessage = messageService.saveMessage(message);
-        return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(HttpStatus.CREATED.value(), "Success", savedMessage));
     }
+
+
 }

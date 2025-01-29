@@ -3,12 +3,13 @@ import jakarta.persistence.*;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -21,11 +22,11 @@ public class Message {
 
     private LocalDateTime date;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
