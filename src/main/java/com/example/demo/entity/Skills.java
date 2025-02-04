@@ -15,6 +15,7 @@ public class Skills {
     private String name;
 
     @Lob
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     // Getters and Setters

@@ -39,11 +39,9 @@ public class ProjectController {
             Project project = new Project();
             project.setName(name);
             project.setDescription(description);
-            if (imageFile != null ) {
+            if (imageFile!=null) {
                 String mimeType = imageFile.getContentType();
-                if (mimeType == null || !mimeType.startsWith("image/")) {
-                    throw new IllegalArgumentException("Invalid file type. Only image files are allowed.");
-                }
+
 
                 String base = "data:" + mimeType + ";base64,";
                 System.out.println(base);
@@ -102,8 +100,10 @@ public class ProjectController {
                     System.out.println("image is here");
                     String mimeType = imageFile.getContentType();
                     if (mimeType == null || !mimeType.startsWith("image/")) {
-                        return ResponseEntity.badRequest().body(
-                                new ApiResponse<>(400, "Invalid image type", null)
+                        existingProject.setImage(null);
+                        Project updatedProject = projectService.saveProject(existingProject);
+                        return ResponseEntity.ok(
+                                new ApiResponse<>(200, "Success", updatedProject)
                         );
                     }
 
