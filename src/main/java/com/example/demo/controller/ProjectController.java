@@ -89,12 +89,10 @@ public class ProjectController {
                 existingProject.setName(name);
             }
 
-            // Update description if provided
             if (description != null) {
                 existingProject.setDescription(description);
             }
 
-            // Update image if provided
             if (imageFile != null) {
                 try {
                     System.out.println("image is here");
